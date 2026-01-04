@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "798900999994",
+    "project_id": "nearby-store-24e14",
+    "storage_bucket": "nearby-store-24e14.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:798900999994:android:20c25d4cb9bc801e8fe203",
+        "android_client_info": {
+          "package_name": "com.met.nearby.store"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCQ81x0kVHtfNb3JZxJcKUZYZlnd0Noqwk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
