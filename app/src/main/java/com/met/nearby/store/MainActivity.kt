@@ -46,7 +46,7 @@ fun MainApp() {
 
     when(val screen = currentScreen){
         Screen.Dashboard -> {
-            DashboardScreen()
+            DashboardScreen(onCategoryClick = { _, _ -> })
         }
     }
 }
