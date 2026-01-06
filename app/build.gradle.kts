@@ -64,5 +64,4 @@ dependencies {
     implementation("com.google.accompanist:accompanist-pager-indicators:0.36.0")
     implementation("androidx.constraintlayout:constraintlayout-compose:1.1.1")
     implementation("com.google.accompanist:accompanist-systemuicontroller:0.36.0")
-    implementation("com.google.maps.android:maps-compose:6.12.2")
 }
