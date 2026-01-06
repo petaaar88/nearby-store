@@ -16,15 +16,17 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.met.nearby.store.R
 import com.met.nearby.store.domain.CategoryModel
+import com.met.nearby.store.domain.StoreModel
 
 @Composable
-fun ResultList(id: String, title: String, onBackClick: () -> Unit, onStoreClick: (String) -> Unit){
+fun ResultList(id: String, title: String, onBackClick: () -> Unit, onStoreClick: (StoreModel) -> Unit){
 
     val viewModel = ResultsViewModel()
     val subCategory = remember { mutableStateListOf<CategoryModel>() }
-
+    val popular = remember { mutableStateListOf<StoreModel>() }
 
     var showSubCategoryLoading by remember { mutableStateOf(true) }
+    var showPopularLoading by remember { mutableStateOf(true) }
 
     LaunchedEffect(id){
         viewModel.loadSubCategory(id).observeForever {
@@ -34,11 +36,20 @@ fun ResultList(id: String, title: String, onBackClick: () -> Unit, onStoreClick:
         }
     }
 
+    LaunchedEffect(id){
+        viewModel.loadPopluar(id).observeForever {
+            popular.clear()
+            popular.addAll(it)
+            showPopularLoading = false
+        }
+    }
+
     LazyColumn(modifier = Modifier.fillMaxSize()
         .background(color = colorResource(R.color.black2))) {
         item { TopTitle(title, onBackClick) }
         item { Search()}
         item { SubCategory(subCategory, showSubCategoryLoading) }
+        item { PopularSection(popular, showPopularLoading, onStoreClick)  }
     }
 }
 
