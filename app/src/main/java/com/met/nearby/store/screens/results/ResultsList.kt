@@ -22,11 +22,14 @@ import com.met.nearby.store.domain.StoreModel
 fun ResultList(id: String, title: String, onBackClick: () -> Unit, onStoreClick: (StoreModel) -> Unit){
 
     val viewModel = ResultsViewModel()
+
     val subCategory = remember { mutableStateListOf<CategoryModel>() }
     val popular = remember { mutableStateListOf<StoreModel>() }
+    val nearest = remember { mutableStateListOf<StoreModel>() }
 
     var showSubCategoryLoading by remember { mutableStateOf(true) }
     var showPopularLoading by remember { mutableStateOf(true) }
+    var showNearestLoading by remember { mutableStateOf(true) }
 
     LaunchedEffect(id){
         viewModel.loadSubCategory(id).observeForever {
@@ -44,12 +47,21 @@ fun ResultList(id: String, title: String, onBackClick: () -> Unit, onStoreClick:
         }
     }
 
+    LaunchedEffect(id){
+        viewModel.loadNearest(id).observeForever {
+            nearest.clear()
+            nearest.addAll(it)
+            showNearestLoading = false
+        }
+    }
+
     LazyColumn(modifier = Modifier.fillMaxSize()
         .background(color = colorResource(R.color.black2))) {
         item { TopTitle(title, onBackClick) }
         item { Search()}
         item { SubCategory(subCategory, showSubCategoryLoading) }
         item { PopularSection(popular, showPopularLoading, onStoreClick)  }
+        item { NearestList(list = nearest, showNearestLoading, onStoreClick) }
     }
 }
 

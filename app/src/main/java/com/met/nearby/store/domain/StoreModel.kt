@@ -13,5 +13,6 @@ data class StoreModel(
     var Call: String = "",
     var Activity: String = "",
     var ShortAddress: String = "",
+    var Hours: String = "",
     var ImagePath: String = ""
 ): Serializable
