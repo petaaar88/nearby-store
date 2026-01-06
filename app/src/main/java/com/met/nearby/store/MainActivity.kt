@@ -11,6 +11,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.res.colorResource
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.met.nearby.store.screens.dashboard.DashboardScreen
+import com.met.nearby.store.screens.results.ResultList
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -23,7 +24,8 @@ class MainActivity : ComponentActivity() {
 }
 
 sealed class Screen {
-    object Dashboard : Screen()
+    data object Dashboard: Screen()
+    data class Results(val id: String, val title: String): Screen()
 }
 
 @Composable
@@ -46,7 +48,23 @@ fun MainApp() {
 
     when(val screen = currentScreen){
         Screen.Dashboard -> {
-            DashboardScreen(onCategoryClick = { _, _ -> })
+            DashboardScreen(onCategoryClick = { id, title ->
+                backStack.add(Screen.Results(id, title))
+            })
+        }
+
+        is Screen.Results -> {
+            ResultList(
+                id = screen.id,
+                title = screen.title,
+                onBackClick = {
+                    popBackStack()
+                },
+                onStoreClick = {
+                    store ->
+
+                }
+            )
         }
     }
 }
