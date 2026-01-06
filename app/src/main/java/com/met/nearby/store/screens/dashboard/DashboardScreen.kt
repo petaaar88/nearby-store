@@ -14,6 +14,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
 import com.met.nearby.store.R
+import com.met.nearby.store.domain.BannerModel
 import com.met.nearby.store.domain.CategoryModel
 import com.met.nearby.store.repository.DashboardRepository
 
@@ -23,8 +24,10 @@ fun DashboardScreen(onCategoryClick: (id: String, title: String) -> Unit){
     val viewModel = DashboardRepository()
 
     val categories = remember { mutableStateListOf<CategoryModel>() }
+    val banners = remember { mutableStateListOf<BannerModel>() }
 
     var showCategoryLoading by remember { mutableStateOf(true) }
+    var showBannerLoading by remember { mutableStateOf(true) }
 
     LaunchedEffect(Unit) {
         viewModel.loadCategory().observeForever {
@@ -33,6 +36,15 @@ fun DashboardScreen(onCategoryClick: (id: String, title: String) -> Unit){
             showCategoryLoading = false
         }
     }
+
+    LaunchedEffect(Unit) {
+        viewModel.loadBanner().observeForever {
+            banners.clear()
+            banners.addAll(it)
+            showBannerLoading = false
+        }
+    }
+
 
     Scaffold(
         containerColor = colorResource(id = R.color.black2),
@@ -43,6 +55,7 @@ fun DashboardScreen(onCategoryClick: (id: String, title: String) -> Unit){
         ) {
             item { TopBar() }
             item { CategorySection(categories, showCategoryLoading, onCategoryClick) }
+            item { Banner(banners, showBannerLoading)}
         }
     }
 }
