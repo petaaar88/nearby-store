@@ -10,7 +10,9 @@ import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.res.colorResource
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
+import com.met.nearby.store.domain.StoreModel
 import com.met.nearby.store.screens.dashboard.DashboardScreen
+import com.met.nearby.store.screens.map.MapScreen
 import com.met.nearby.store.screens.results.ResultList
 
 class MainActivity : ComponentActivity() {
@@ -26,6 +28,7 @@ class MainActivity : ComponentActivity() {
 sealed class Screen {
     data object Dashboard: Screen()
     data class Results(val id: String, val title: String): Screen()
+    data class Map(val store: StoreModel): Screen()
 }
 
 @Composable
@@ -60,11 +63,14 @@ fun MainApp() {
                 onBackClick = {
                     popBackStack()
                 },
-                onStoreClick = {
-                    store ->
-
+                onStoreClick = { store ->
+                    backStack.add(Screen.Map(store))
                 }
             )
+        }
+
+        is Screen.Map -> {
+            MapScreen(store = screen.store)
         }
     }
 }
