@@ -36,7 +36,8 @@ sealed class Screen {
 @Composable
 fun MainApp() {
     val systemUiController = rememberSystemUiController()
-    systemUiController.setStatusBarColor(color = colorResource(R.color.white))
+    systemUiController.setStatusBarColor(color = colorResource(R.color.black2))
+    systemUiController.setNavigationBarColor(color = colorResource(R.color.black3))
 
     val backStack = remember { mutableStateListOf<Screen>(Screen.Splash) }
     val currentScreen  = backStack.last()

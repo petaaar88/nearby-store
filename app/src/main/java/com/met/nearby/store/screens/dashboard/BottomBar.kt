@@ -2,6 +2,7 @@ package com.met.nearby.store.screens.dashboard
 
 import android.widget.Toast
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.BottomAppBar
@@ -57,8 +58,11 @@ fun BottomBar(){
     val context = LocalContext.current
     var selected by remember { mutableStateOf("Home") }
 
-    BottomAppBar(backgroundColor = colorResource(id = R.color.black3),
-        elevation = 3.dp) {
+    BottomAppBar(
+        modifier = Modifier.navigationBarsPadding(),
+        backgroundColor = colorResource(id = R.color.black3),
+        elevation = 0.dp
+    ) {
         bottomMenuItemList.forEach { bottomMenuItemList ->
             BottomNavigationItem(
                 selected = (selected == bottomMenuItemList.label),
