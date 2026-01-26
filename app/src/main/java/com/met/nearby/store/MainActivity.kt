@@ -14,6 +14,7 @@ import com.met.nearby.store.domain.StoreModel
 import com.met.nearby.store.screens.dashboard.DashboardScreen
 import com.met.nearby.store.screens.map.MapScreen
 import com.met.nearby.store.screens.results.ResultList
+import com.met.nearby.store.screens.splash.SplashScreen
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -26,6 +27,7 @@ class MainActivity : ComponentActivity() {
 }
 
 sealed class Screen {
+    data object Splash: Screen()
     data object Dashboard: Screen()
     data class Results(val id: String, val title: String): Screen()
     data class Map(val store: StoreModel): Screen()
@@ -36,7 +38,7 @@ fun MainApp() {
     val systemUiController = rememberSystemUiController()
     systemUiController.setStatusBarColor(color = colorResource(R.color.white))
 
-    val backStack = remember { mutableStateListOf<Screen>(Screen.Dashboard) }
+    val backStack = remember { mutableStateListOf<Screen>(Screen.Splash) }
     val currentScreen  = backStack.last()
 
     fun popBackStack(){
@@ -50,6 +52,13 @@ fun MainApp() {
     }
 
     when(val screen = currentScreen){
+        Screen.Splash -> {
+            SplashScreen(onNavigateToDashboard = {
+                backStack.removeAll { it == Screen.Splash }
+                backStack.add(Screen.Dashboard)
+            })
+        }
+
         Screen.Dashboard -> {
             DashboardScreen(onCategoryClick = { id, title ->
                 backStack.add(Screen.Results(id, title))
