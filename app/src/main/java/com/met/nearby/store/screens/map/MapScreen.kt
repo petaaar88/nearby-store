@@ -101,7 +101,7 @@ fun MapScreen(store: StoreModel) {
                 .padding(16.dp)
                 .constrainAs(detail) {
                     centerHorizontallyTo(parent)
-                    bottom.linkTo(parent.bottom)
+                    bottom.linkTo(parent.bottom, margin = 30.dp)
                 }
         ) {
             item { ItemsNearest(store) }
