@@ -27,6 +27,13 @@ fun ResultList(id: String, title: String, onBackClick: () -> Unit, onStoreClick:
     val popular = remember { mutableStateListOf<StoreModel>() }
     val nearest = remember { mutableStateListOf<StoreModel>() }
 
+    var searchText by remember { mutableStateOf("") }
+
+    val filteredNearest = remember(nearest.toList(), searchText) {
+        if (searchText.isBlank()) nearest.toList()
+        else nearest.filter { it.Title.contains(searchText, ignoreCase = true) }
+    }
+
     var showSubCategoryLoading by remember { mutableStateOf(true) }
     var showPopularLoading by remember { mutableStateOf(true) }
     var showNearestLoading by remember { mutableStateOf(true) }
@@ -58,10 +65,10 @@ fun ResultList(id: String, title: String, onBackClick: () -> Unit, onStoreClick:
     LazyColumn(modifier = Modifier.fillMaxSize()
         .background(color = colorResource(R.color.black2))) {
         item { TopTitle(title, onBackClick) }
-        item { Search()}
+        item { Search(searchText = searchText, onSearchChange = { searchText = it }) }
         item { SubCategory(subCategory, showSubCategoryLoading) }
-        item { PopularSection(popular, showPopularLoading, onStoreClick)  }
-        item { NearestList(list = nearest, showNearestLoading, onStoreClick) }
+        item { PopularSection(popular.toList(), showPopularLoading, onStoreClick)  }
+        item { NearestList(list = filteredNearest, showNearestLoading, onStoreClick) }
     }
 }
 

@@ -12,30 +12,26 @@ import androidx.compose.material3.Text
 import androidx.compose.material.TextField
 import androidx.compose.material.TextFieldDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.met.nearby.store.R
 
 @Composable
-@Preview
-fun Search(){
-    var text by rememberSaveable { mutableStateOf("") }
+fun Search(
+    searchText: String,
+    onSearchChange: (String) -> Unit
+){
     TextField(
-        value = text,
-        onValueChange ={ text = it },
-        label = {
-            Text(text = "Find stories, restaurants, products...",
+        value = searchText,
+        onValueChange = onSearchChange,
+        placeholder = {
+            Text(text = "Find stores, restaurants, products...",
                 fontSize = 16.sp,
-                color = Color.White)
+                color = Color.Gray)
         },
         shape = RoundedCornerShape(10.dp),
         leadingIcon = {
