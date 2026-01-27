@@ -80,7 +80,10 @@ fun MainApp() {
         }
 
         is Screen.Map -> {
-            MapScreen(store = screen.store)
+            MapScreen(
+                store = screen.store,
+                onBackClick = { popBackStack() }
+            )
         }
     }
 }

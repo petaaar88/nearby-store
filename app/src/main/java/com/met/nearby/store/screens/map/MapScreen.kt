@@ -4,11 +4,15 @@ import android.content.Intent
 import android.graphics.BitmapFactory
 import android.net.Uri
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
@@ -33,14 +37,14 @@ import org.maplibre.android.style.sources.GeoJsonSource
 
 
 @Composable
-fun MapScreen(store: StoreModel) {
+fun MapScreen(store: StoreModel, onBackClick: () -> Unit) {
 
     val context = LocalContext.current
     val lat = store.Latitude
     val lon = store.Longitude
 
     ConstraintLayout(modifier = Modifier.fillMaxSize()) {
-        val (map, detail) = createRefs()
+        val (map, detail, backButton) = createRefs()
 
         AndroidView(
             modifier = Modifier
@@ -91,6 +95,24 @@ fun MapScreen(store: StoreModel) {
             },
             update = { it.onResume() }
         )
+
+        Box(
+            modifier = Modifier
+                .size(48.dp)
+                .background(colorResource(R.color.black3), RoundedCornerShape(50))
+                .clickable { onBackClick() }
+                .constrainAs(backButton) {
+                    top.linkTo(parent.top, margin = 48.dp)
+                    start.linkTo(parent.start, margin = 24.dp)
+                },
+            contentAlignment = Alignment.Center
+        ) {
+            Icon(
+                imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                contentDescription = "Back",
+                tint = Color.White
+            )
+        }
 
         LazyColumn(
             modifier = Modifier
