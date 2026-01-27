@@ -30,7 +30,8 @@ import com.met.nearby.store.screens.results.ItemsNearest
 @Composable
 fun FavoriteScreen(
     onHomeClick: () -> Unit,
-    onStoreClick: (StoreModel) -> Unit
+    onStoreClick: (StoreModel) -> Unit,
+    onProfileClick: () -> Unit = {}
 ) {
     val favoriteStores = listOf(
         StoreModel(
@@ -54,7 +55,8 @@ fun FavoriteScreen(
             BottomBar(
                 selectedTab = "Favorite",
                 onHomeClick = onHomeClick,
-                onFavoriteClick = {}
+                onFavoriteClick = {},
+                onProfileClick = onProfileClick
             )
         }
     ) { paddingValues ->

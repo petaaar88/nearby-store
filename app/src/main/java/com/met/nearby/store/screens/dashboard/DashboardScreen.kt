@@ -21,7 +21,8 @@ import com.met.nearby.store.repository.DashboardRepository
 @Composable
 fun DashboardScreen(
     onCategoryClick: (id: String, title: String) -> Unit,
-    onFavoriteClick: () -> Unit
+    onFavoriteClick: () -> Unit,
+    onProfileClick: () -> Unit
 ){
 
     val viewModel = DashboardRepository()
@@ -51,7 +52,7 @@ fun DashboardScreen(
 
     Scaffold(
         containerColor = colorResource(id = R.color.black2),
-        bottomBar = { BottomBar(onFavoriteClick = onFavoriteClick) }
+        bottomBar = { BottomBar(onFavoriteClick = onFavoriteClick, onProfileClick = onProfileClick) }
     ) { paddingValues ->
         LazyColumn(modifier = Modifier.fillMaxSize()
             .padding(paddingValues = paddingValues)

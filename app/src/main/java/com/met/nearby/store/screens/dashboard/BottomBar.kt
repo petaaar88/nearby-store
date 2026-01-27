@@ -1,6 +1,5 @@
 package com.met.nearby.store.screens.dashboard
 
-import android.widget.Toast
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
@@ -11,18 +10,11 @@ import androidx.compose.material.Divider
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.met.nearby.store.R
@@ -54,10 +46,10 @@ fun prepareBottomMenu(): List<BottomMenuItem>{
 fun BottomBar(
     selectedTab: String = "Home",
     onHomeClick: () -> Unit = {},
-    onFavoriteClick: () -> Unit = {}
+    onFavoriteClick: () -> Unit = {},
+    onProfileClick: () -> Unit = {}
 ){
     val bottomMenuItemList = prepareBottomMenu()
-    val context = LocalContext.current
 
     Column(
         modifier = Modifier.navigationBarsPadding()
@@ -78,7 +70,7 @@ fun BottomBar(
                         when (menuItem.label) {
                             "Home" -> onHomeClick()
                             "Favorite" -> onFavoriteClick()
-                            else -> Toast.makeText(context, menuItem.label, Toast.LENGTH_SHORT).show()
+                            "Profile" -> onProfileClick()
                         }
                     }, icon = {
                         Column(horizontalAlignment = Alignment.CenterHorizontally) {

@@ -27,7 +27,8 @@ fun ResultList(
     title: String,
     onHomeClick: () -> Unit,
     onFavoriteClick: () -> Unit,
-    onStoreClick: (StoreModel) -> Unit
+    onStoreClick: (StoreModel) -> Unit,
+    onProfileClick: () -> Unit = {}
 ){
     val viewModel = ResultsViewModel()
 
@@ -76,7 +77,8 @@ fun ResultList(
             BottomBar(
                 selectedTab = "Home",
                 onHomeClick = onHomeClick,
-                onFavoriteClick = onFavoriteClick
+                onFavoriteClick = onFavoriteClick,
+                onProfileClick = onProfileClick
             )
         }
     ) { paddingValues ->

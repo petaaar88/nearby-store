@@ -15,6 +15,8 @@ import com.met.nearby.store.screens.dashboard.DashboardScreen
 import com.met.nearby.store.screens.map.MapScreen
 import com.met.nearby.store.screens.results.ResultList
 import com.met.nearby.store.screens.favorite.FavoriteScreen
+import com.met.nearby.store.screens.login.LoginScreen
+import com.met.nearby.store.screens.profile.ProfileScreen
 import com.met.nearby.store.screens.splash.SplashScreen
 
 class MainActivity : ComponentActivity() {
@@ -29,8 +31,10 @@ class MainActivity : ComponentActivity() {
 
 sealed class Screen {
     data object Splash: Screen()
+    data object Login: Screen()
     data object Dashboard: Screen()
     data object Favorite: Screen()
+    data object Profile: Screen()
     data class Results(val id: String, val title: String): Screen()
     data class Map(val store: StoreModel): Screen()
 }
@@ -58,8 +62,21 @@ fun MainApp() {
         Screen.Splash -> {
             SplashScreen(onNavigateToDashboard = {
                 backStack.removeAll { it == Screen.Splash }
-                backStack.add(Screen.Dashboard)
+                backStack.add(Screen.Login)
             })
+        }
+
+        Screen.Login -> {
+            LoginScreen(
+                onLoginClick = {
+                    backStack.removeAll { it == Screen.Login }
+                    backStack.add(Screen.Dashboard)
+                },
+                onSkipClick = {
+                    backStack.removeAll { it == Screen.Login }
+                    backStack.add(Screen.Dashboard)
+                }
+            )
         }
 
         Screen.Dashboard -> {
@@ -69,6 +86,9 @@ fun MainApp() {
                 },
                 onFavoriteClick = {
                     backStack.add(Screen.Favorite)
+                },
+                onProfileClick = {
+                    backStack.add(Screen.Profile)
                 }
             )
         }
@@ -81,6 +101,25 @@ fun MainApp() {
                 },
                 onStoreClick = { store ->
                     backStack.add(Screen.Map(store))
+                },
+                onProfileClick = {
+                    backStack.add(Screen.Profile)
+                }
+            )
+        }
+
+        Screen.Profile -> {
+            ProfileScreen(
+                onHomeClick = {
+                    backStack.clear()
+                    backStack.add(Screen.Dashboard)
+                },
+                onFavoriteClick = {
+                    backStack.add(Screen.Favorite)
+                },
+                onLogoutClick = {
+                    backStack.clear()
+                    backStack.add(Screen.Login)
                 }
             )
         }
@@ -98,6 +137,9 @@ fun MainApp() {
                 },
                 onStoreClick = { store ->
                     backStack.add(Screen.Map(store))
+                },
+                onProfileClick = {
+                    backStack.add(Screen.Profile)
                 }
             )
         }
