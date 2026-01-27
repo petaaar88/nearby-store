@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.BottomAppBar
 import androidx.compose.material.BottomNavigationItem
+import androidx.compose.material.Divider
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -16,6 +17,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
@@ -39,9 +41,6 @@ fun prepareBottomMenu(): List<BottomMenuItem>{
         BottomMenuItem(label = "Home", icon = painterResource(id = R.drawable.btn_1))
     )
     bottomMenuItemList.add(
-        BottomMenuItem(label = "Support", icon = painterResource(id = R.drawable.btn_2))
-    )
-    bottomMenuItemList.add(
         BottomMenuItem(label = "Favorite", icon = painterResource(id = R.drawable.btn_3))
     )
     bottomMenuItemList.add(
@@ -52,45 +51,55 @@ fun prepareBottomMenu(): List<BottomMenuItem>{
 }
 
 @Composable
-fun BottomBar(onFavoriteClick: () -> Unit = {}){
+fun BottomBar(
+    selectedTab: String = "Home",
+    onHomeClick: () -> Unit = {},
+    onFavoriteClick: () -> Unit = {}
+){
     val bottomMenuItemList = prepareBottomMenu()
     val context = LocalContext.current
-    var selected by remember { mutableStateOf("Home") }
 
-    BottomAppBar(
-        modifier = Modifier.navigationBarsPadding(),
-        backgroundColor = colorResource(id = R.color.black3),
-        elevation = 0.dp
+    Column(
+        modifier = Modifier.navigationBarsPadding()
     ) {
-        bottomMenuItemList.forEach { bottomMenuItemList ->
-            BottomNavigationItem(
-                selected = (selected == bottomMenuItemList.label),
-                onClick = {
-                    selected = bottomMenuItemList.label
-                    if (bottomMenuItemList.label == "Favorite") {
-                        onFavoriteClick()
-                    } else {
-                        Toast.makeText(context, bottomMenuItemList.label, Toast.LENGTH_SHORT).show()
-                    }
-                }, icon = {
-                    Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                        Icon(
-                            painter = bottomMenuItemList.icon,
-                            contentDescription = null,
-                            tint = colorResource(id = R.color.white),
-                            modifier = Modifier.padding(top = 8.dp)
-                                .size(20.dp)
-                        )
+        Divider(
+            color = colorResource(id = R.color.black2),
+            thickness = 1.dp
+        )
 
-                        Text(
-                            text = bottomMenuItemList.label,
-                            fontSize = 12.sp,
-                            color = colorResource(id = R.color.white),
-                            modifier = Modifier.padding(top = 8.dp)
-                        )
+        BottomAppBar(
+            backgroundColor = colorResource(id = R.color.black3),
+            elevation = 0.dp
+        ) {
+            bottomMenuItemList.forEach { menuItem ->
+                BottomNavigationItem(
+                    selected = (selectedTab == menuItem.label),
+                    onClick = {
+                        when (menuItem.label) {
+                            "Home" -> onHomeClick()
+                            "Favorite" -> onFavoriteClick()
+                            else -> Toast.makeText(context, menuItem.label, Toast.LENGTH_SHORT).show()
+                        }
+                    }, icon = {
+                        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                            Icon(
+                                painter = menuItem.icon,
+                                contentDescription = null,
+                                tint = colorResource(id = R.color.white),
+                                modifier = Modifier.padding(top = 8.dp)
+                                    .size(20.dp)
+                            )
+
+                            Text(
+                                text = menuItem.label,
+                                fontSize = 12.sp,
+                                color = colorResource(id = R.color.white),
+                                modifier = Modifier.padding(top = 8.dp)
+                            )
+                        }
                     }
-                }
-            )
+                )
+            }
         }
     }
 }

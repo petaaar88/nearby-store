@@ -75,7 +75,10 @@ fun MainApp() {
 
         Screen.Favorite -> {
             FavoriteScreen(
-                onBackClick = { popBackStack() },
+                onHomeClick = {
+                    backStack.clear()
+                    backStack.add(Screen.Dashboard)
+                },
                 onStoreClick = { store ->
                     backStack.add(Screen.Map(store))
                 }
@@ -86,8 +89,12 @@ fun MainApp() {
             ResultList(
                 id = screen.id,
                 title = screen.title,
-                onBackClick = {
-                    popBackStack()
+                onHomeClick = {
+                    backStack.clear()
+                    backStack.add(Screen.Dashboard)
+                },
+                onFavoriteClick = {
+                    backStack.add(Screen.Favorite)
                 },
                 onStoreClick = { store ->
                     backStack.add(Screen.Map(store))
