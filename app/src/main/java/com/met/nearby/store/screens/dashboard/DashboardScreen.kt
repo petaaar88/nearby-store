@@ -14,6 +14,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
 import com.met.nearby.store.R
+import com.met.nearby.store.auth.UserSession
 import com.met.nearby.store.domain.BannerModel
 import com.met.nearby.store.domain.CategoryModel
 import com.met.nearby.store.repository.DashboardRepository
@@ -57,9 +58,10 @@ fun DashboardScreen(
         LazyColumn(modifier = Modifier.fillMaxSize()
             .padding(paddingValues = paddingValues)
         ) {
-            item { TopBar() }
-            item { CategorySection(categories, showCategoryLoading, onCategoryClick) }
+            item { TopBar(isLoggedIn = UserSession.isLoggedIn, firstName = UserSession.userFirstName, lastName = UserSession.userLastName) }
+
             item { Banner(banners, showBannerLoading)}
+            item { CategorySection(categories, showCategoryLoading, onCategoryClick) }
         }
     }
 }

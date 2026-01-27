@@ -34,6 +34,7 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.met.nearby.store.R
+import com.met.nearby.store.auth.UserSession
 
 @Composable
 fun LoginScreen(
@@ -121,7 +122,10 @@ fun LoginScreen(
         Spacer(modifier = Modifier.height(32.dp))
 
         Button(
-            onClick = onLoginClick,
+            onClick = {
+                UserSession.login(email)
+                onLoginClick()
+            },
             modifier = Modifier
                 .fillMaxWidth()
                 .height(50.dp),
@@ -142,7 +146,7 @@ fun LoginScreen(
 
         TextButton(onClick = onSkipClick) {
             Text(
-                text = "Skip Login",
+                text = "Continue as Guest",
                 color = colorResource(R.color.gray),
                 fontSize = 14.sp
             )

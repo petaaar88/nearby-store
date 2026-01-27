@@ -10,6 +10,7 @@ import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.res.colorResource
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
+import com.met.nearby.store.auth.UserSession
 import com.met.nearby.store.domain.StoreModel
 import com.met.nearby.store.screens.dashboard.DashboardScreen
 import com.met.nearby.store.screens.map.MapScreen
@@ -62,7 +63,11 @@ fun MainApp() {
         Screen.Splash -> {
             SplashScreen(onNavigateToDashboard = {
                 backStack.removeAll { it == Screen.Splash }
-                backStack.add(Screen.Login)
+                if (UserSession.isLoggedIn)
+                    backStack.add(Screen.Dashboard)
+                else
+                    backStack.add(Screen.Login)
+
             })
         }
 
@@ -104,6 +109,9 @@ fun MainApp() {
                 },
                 onProfileClick = {
                     backStack.add(Screen.Profile)
+                },
+                onLoginClick = {
+                    backStack.add(Screen.Login)
                 }
             )
         }
@@ -119,6 +127,9 @@ fun MainApp() {
                 },
                 onLogoutClick = {
                     backStack.clear()
+                    backStack.add(Screen.Login)
+                },
+                onLoginClick = {
                     backStack.add(Screen.Login)
                 }
             )
