@@ -8,10 +8,12 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
@@ -35,6 +37,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.met.nearby.store.R
 import com.met.nearby.store.auth.UserSession
+import com.met.nearby.store.repository.AuthRepository
+import com.met.nearby.store.repository.AuthResult
 
 @Composable
 fun LoginScreen(
@@ -44,6 +48,10 @@ fun LoginScreen(
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var passwordVisible by remember { mutableStateOf(false) }
+    var isLoading by remember { mutableStateOf(false) }
+    var errorMessage by remember { mutableStateOf<String?>(null) }
+
+    val authRepository = remember { AuthRepository() }
 
     Column(
         modifier = Modifier
@@ -64,12 +72,16 @@ fun LoginScreen(
 
         OutlinedTextField(
             value = email,
-            onValueChange = { email = it },
+            onValueChange = {
+                email = it
+                errorMessage = null
+            },
             label = { Text("Email") },
             singleLine = true,
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
             modifier = Modifier.fillMaxWidth(),
             shape = RoundedCornerShape(12.dp),
+            enabled = !isLoading,
             colors = OutlinedTextFieldDefaults.colors(
                 unfocusedContainerColor = colorResource(R.color.black3),
                 focusedContainerColor = colorResource(R.color.black3),
@@ -87,7 +99,10 @@ fun LoginScreen(
 
         OutlinedTextField(
             value = password,
-            onValueChange = { password = it },
+            onValueChange = {
+                password = it
+                errorMessage = null
+            },
             label = { Text("Password") },
             singleLine = true,
             visualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),
@@ -106,6 +121,7 @@ fun LoginScreen(
             },
             modifier = Modifier.fillMaxWidth(),
             shape = RoundedCornerShape(12.dp),
+            enabled = !isLoading,
             colors = OutlinedTextFieldDefaults.colors(
                 unfocusedContainerColor = colorResource(R.color.black3),
                 focusedContainerColor = colorResource(R.color.black3),
@@ -119,32 +135,82 @@ fun LoginScreen(
             )
         )
 
+        if (errorMessage != null) {
+            Spacer(modifier = Modifier.height(8.dp))
+            Text(
+                text = errorMessage!!,
+                color = colorResource(R.color.gold),
+                fontSize = 14.sp
+            )
+        }
+
         Spacer(modifier = Modifier.height(32.dp))
 
         Button(
             onClick = {
-                UserSession.login(email)
-                onLoginClick()
+                if (email.isBlank() || password.isBlank()) {
+                    errorMessage = "Please enter email and password"
+                    return@Button
+                }
+
+                isLoading = true
+                errorMessage = null
+
+                authRepository.authenticate(email, password).observeForever { result ->
+                    when (result) {
+                        is AuthResult.Loading -> {
+                            isLoading = true
+                        }
+                        is AuthResult.Success -> {
+                            isLoading = false
+                            val user = result.user
+                            UserSession.login(
+                                id = user.Id,
+                                email = user.Email,
+                                firstName = user.FirstName,
+                                lastName = user.LastName,
+                                imageUrl = user.ImageUrl
+                            )
+                            onLoginClick()
+                        }
+                        is AuthResult.Error -> {
+                            isLoading = false
+                            errorMessage = result.message
+                        }
+                    }
+                }
             },
             modifier = Modifier
                 .fillMaxWidth()
                 .height(50.dp),
             shape = RoundedCornerShape(12.dp),
+            enabled = !isLoading,
             colors = ButtonDefaults.buttonColors(
                 containerColor = colorResource(R.color.gold)
             )
         ) {
-            Text(
-                text = "Login",
-                color = colorResource(R.color.black2),
-                fontWeight = FontWeight.Bold,
-                fontSize = 16.sp
-            )
+            if (isLoading) {
+                CircularProgressIndicator(
+                    modifier = Modifier.size(24.dp),
+                    color = colorResource(R.color.black2),
+                    strokeWidth = 2.dp
+                )
+            } else {
+                Text(
+                    text = "Login",
+                    color = colorResource(R.color.black2),
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 16.sp
+                )
+            }
         }
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        TextButton(onClick = onSkipClick) {
+        TextButton(
+            onClick = onSkipClick,
+            enabled = !isLoading
+        ) {
             Text(
                 text = "Continue as Guest",
                 color = colorResource(R.color.gray),

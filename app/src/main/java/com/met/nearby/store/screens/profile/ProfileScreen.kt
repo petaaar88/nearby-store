@@ -24,12 +24,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.sp
+import coil.compose.AsyncImage
 import com.met.nearby.store.R
 import com.met.nearby.store.auth.UserSession
 import com.met.nearby.store.screens.dashboard.prepareBottomMenu
@@ -44,6 +46,7 @@ fun ProfileScreen(
     val firstName = UserSession.userFirstName ?: "User"
     val lastName = UserSession.userLastName ?: ""
     val email = UserSession.userEmail ?: ""
+    val imageUrl = UserSession.userImageUrl
 
     Scaffold(
         containerColor = colorResource(R.color.black2),
@@ -64,19 +67,32 @@ fun ProfileScreen(
             ) {
                 Spacer(modifier = Modifier.height(32.dp))
 
-                Box(
-                    modifier = Modifier
-                        .size(120.dp)
-                        .clip(CircleShape)
-                        .background(colorResource(R.color.black3)),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Icon(
-                        painter = painterResource(R.drawable.ic_person),
+                if (!imageUrl.isNullOrEmpty()) {
+                    AsyncImage(
+                        model = imageUrl,
                         contentDescription = "Profile",
-                        tint = colorResource(R.color.gray),
-                        modifier = Modifier.size(60.dp)
+                        modifier = Modifier
+                            .size(120.dp)
+                            .clip(CircleShape),
+                        contentScale = ContentScale.Crop,
+                        placeholder = painterResource(R.drawable.ic_person),
+                        error = painterResource(R.drawable.ic_person)
                     )
+                } else {
+                    Box(
+                        modifier = Modifier
+                            .size(120.dp)
+                            .clip(CircleShape)
+                            .background(colorResource(R.color.black3)),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Icon(
+                            painter = painterResource(R.drawable.ic_person),
+                            contentDescription = "Profile",
+                            tint = colorResource(R.color.gray),
+                            modifier = Modifier.size(60.dp)
+                        )
+                    }
                 }
 
                 Spacer(modifier = Modifier.height(16.dp))

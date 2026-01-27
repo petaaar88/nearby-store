@@ -58,7 +58,7 @@ fun DashboardScreen(
         LazyColumn(modifier = Modifier.fillMaxSize()
             .padding(paddingValues = paddingValues)
         ) {
-            item { TopBar(isLoggedIn = UserSession.isLoggedIn, firstName = UserSession.userFirstName, lastName = UserSession.userLastName) }
+            item { TopBar(isLoggedIn = UserSession.isLoggedIn, firstName = UserSession.userFirstName, lastName = UserSession.userLastName, imageUrl = UserSession.userImageUrl) }
 
             item { Banner(banners, showBannerLoading)}
             item { CategorySection(categories, showCategoryLoading, onCategoryClick) }
