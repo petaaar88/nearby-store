@@ -24,10 +24,11 @@ import com.met.nearby.store.R
 @Preview
 fun TopTitle(title: String = "title", onBackClick: () -> Unit = {}){
     Box(modifier = Modifier.fillMaxWidth()
-        .height(130.dp)
+        .height(100.dp)
     ) {
         Row(modifier = Modifier.align(Alignment.Center)
-            .padding(horizontal = 16.dp),
+            .padding(horizontal = 16.dp)
+            .padding(top = 55.dp),
             horizontalArrangement = Arrangement.Start,
             verticalAlignment = Alignment.CenterVertically
         ) {

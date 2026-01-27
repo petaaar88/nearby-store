@@ -42,7 +42,7 @@ fun prepareBottomMenu(): List<BottomMenuItem>{
         BottomMenuItem(label = "Support", icon = painterResource(id = R.drawable.btn_2))
     )
     bottomMenuItemList.add(
-        BottomMenuItem(label = "Wishlist", icon = painterResource(id = R.drawable.btn_3))
+        BottomMenuItem(label = "Favorite", icon = painterResource(id = R.drawable.btn_3))
     )
     bottomMenuItemList.add(
         BottomMenuItem(label = "Profile", icon = painterResource(id = R.drawable.btn_4))
@@ -52,8 +52,7 @@ fun prepareBottomMenu(): List<BottomMenuItem>{
 }
 
 @Composable
-@Preview
-fun BottomBar(){
+fun BottomBar(onFavoriteClick: () -> Unit = {}){
     val bottomMenuItemList = prepareBottomMenu()
     val context = LocalContext.current
     var selected by remember { mutableStateOf("Home") }
@@ -68,7 +67,11 @@ fun BottomBar(){
                 selected = (selected == bottomMenuItemList.label),
                 onClick = {
                     selected = bottomMenuItemList.label
-                    Toast.makeText(context, bottomMenuItemList.label, Toast.LENGTH_SHORT).show()
+                    if (bottomMenuItemList.label == "Favorite") {
+                        onFavoriteClick()
+                    } else {
+                        Toast.makeText(context, bottomMenuItemList.label, Toast.LENGTH_SHORT).show()
+                    }
                 }, icon = {
                     Column(horizontalAlignment = Alignment.CenterHorizontally) {
                         Icon(

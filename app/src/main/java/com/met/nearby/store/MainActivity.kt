@@ -14,6 +14,7 @@ import com.met.nearby.store.domain.StoreModel
 import com.met.nearby.store.screens.dashboard.DashboardScreen
 import com.met.nearby.store.screens.map.MapScreen
 import com.met.nearby.store.screens.results.ResultList
+import com.met.nearby.store.screens.favorite.FavoriteScreen
 import com.met.nearby.store.screens.splash.SplashScreen
 
 class MainActivity : ComponentActivity() {
@@ -29,6 +30,7 @@ class MainActivity : ComponentActivity() {
 sealed class Screen {
     data object Splash: Screen()
     data object Dashboard: Screen()
+    data object Favorite: Screen()
     data class Results(val id: String, val title: String): Screen()
     data class Map(val store: StoreModel): Screen()
 }
@@ -61,9 +63,23 @@ fun MainApp() {
         }
 
         Screen.Dashboard -> {
-            DashboardScreen(onCategoryClick = { id, title ->
-                backStack.add(Screen.Results(id, title))
-            })
+            DashboardScreen(
+                onCategoryClick = { id, title ->
+                    backStack.add(Screen.Results(id, title))
+                },
+                onFavoriteClick = {
+                    backStack.add(Screen.Favorite)
+                }
+            )
+        }
+
+        Screen.Favorite -> {
+            FavoriteScreen(
+                onBackClick = { popBackStack() },
+                onStoreClick = { store ->
+                    backStack.add(Screen.Map(store))
+                }
+            )
         }
 
         is Screen.Results -> {
