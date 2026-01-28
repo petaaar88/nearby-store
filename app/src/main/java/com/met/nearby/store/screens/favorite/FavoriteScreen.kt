@@ -12,6 +12,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.material.Divider
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -67,6 +69,7 @@ fun FavoriteScreen(
 
     Scaffold(
         containerColor = colorResource(id = R.color.black2),
+        topBar = { FavoriteTopTitle() },
         bottomBar = {
             BottomBar(
                 selectedTab = "Favorite",
@@ -112,7 +115,6 @@ fun FavoriteScreen(
                         .padding(paddingValues)
                         .background(color = colorResource(R.color.black2))
                 ) {
-                    item { FavoriteTopTitle() }
                     items(favoriteStores) { store ->
                         Box(modifier = Modifier.padding(horizontal = 16.dp, vertical = 6.dp)) {
                             ItemsNearest(item = store, onClick = { onStoreClick(store) })
@@ -160,30 +162,39 @@ fun FavoriteScreen(
 
 @Composable
 fun FavoriteTopTitle() {
-    Box(
-        modifier = Modifier.fillMaxWidth()
-            .height(100.dp)
-    ) {
-        Row(
-            modifier = Modifier
-                .align(Alignment.Center)
-                .padding(horizontal = 16.dp),
-            horizontalArrangement = Arrangement.Start,
-            verticalAlignment = Alignment.CenterVertically
+    Column(modifier = Modifier.fillMaxWidth()) {
+        Box(
+            modifier = Modifier.fillMaxWidth()
+                .statusBarsPadding()
+                .height(70.dp)
+                .padding(vertical = 5.dp)
         ) {
-            Text(
-                text = "Favorite Stores",
-                fontSize = 20.sp,
-                color = colorResource(R.color.gold),
-                modifier = Modifier.weight(1f),
-                fontWeight = FontWeight.Bold
-            )
+            Row(
+                modifier = Modifier
+                    .align(Alignment.Center)
+                    .padding(horizontal = 16.dp),
+                horizontalArrangement = Arrangement.Start,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    text = "Favorite Stores",
+                    fontSize = 20.sp,
+                    color = colorResource(R.color.gold),
+                    modifier = Modifier.weight(1f),
+                    fontWeight = FontWeight.Bold
+                )
 
-            Image(
-                painter = painterResource(R.drawable.btn_3),
-                contentDescription = null
-            )
+                Image(
+                    painter = painterResource(R.drawable.btn_3),
+                    contentDescription = null,
+                    modifier = Modifier.size(28.dp)
+                )
+            }
         }
+        Divider(
+            color = colorResource(R.color.black3),
+            thickness = 1.dp
+        )
     }
 }
 
