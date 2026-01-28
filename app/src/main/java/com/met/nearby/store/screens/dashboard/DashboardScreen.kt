@@ -14,12 +14,17 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
 import com.met.nearby.store.R
+import com.met.nearby.store.auth.UserSession
 import com.met.nearby.store.domain.BannerModel
 import com.met.nearby.store.domain.CategoryModel
 import com.met.nearby.store.repository.DashboardRepository
 
 @Composable
-fun DashboardScreen(onCategoryClick: (id: String, title: String) -> Unit){
+fun DashboardScreen(
+    onCategoryClick: (id: String, title: String) -> Unit,
+    onFavoriteClick: () -> Unit,
+    onProfileClick: () -> Unit
+){
 
     val viewModel = DashboardRepository()
 
@@ -48,14 +53,15 @@ fun DashboardScreen(onCategoryClick: (id: String, title: String) -> Unit){
 
     Scaffold(
         containerColor = colorResource(id = R.color.black2),
-        bottomBar = { BottomBar() }
+        bottomBar = { BottomBar(onFavoriteClick = onFavoriteClick, onProfileClick = onProfileClick) }
     ) { paddingValues ->
         LazyColumn(modifier = Modifier.fillMaxSize()
             .padding(paddingValues = paddingValues)
         ) {
-            item { TopBar() }
-            item { CategorySection(categories, showCategoryLoading, onCategoryClick) }
+            item { TopBar(isLoggedIn = UserSession.isLoggedIn, firstName = UserSession.userFirstName, lastName = UserSession.userLastName, imageUrl = UserSession.userImageUrl) }
+
             item { Banner(banners, showBannerLoading)}
+            item { CategorySection(categories, showCategoryLoading, onCategoryClick) }
         }
     }
 }

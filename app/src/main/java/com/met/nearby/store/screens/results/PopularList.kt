@@ -18,7 +18,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -95,7 +94,7 @@ fun ItemPopularPreview(){
 
 @Composable
 fun PopularSection(
-    list: SnapshotStateList<StoreModel>,
+    list: List<StoreModel>,
     showPopularStores: Boolean,
     onStoreClick: (StoreModel) -> Unit
 ){
@@ -149,9 +148,10 @@ fun PopularSection(
 @Composable
 @Preview
 fun PopularSectionPreview(){
-    val list = SnapshotStateList<StoreModel>()
-    list.add(StoreModel(Title = "Store 1", ShortAddress = "Address 1"))
-    list.add(StoreModel(Title = "Store 2", ShortAddress = "Address 2"))
+    val list = listOf(
+        StoreModel(Title = "Store 1", ShortAddress = "Address 1"),
+        StoreModel(Title = "Store 2", ShortAddress = "Address 2")
+    )
 
     PopularSection(
         list = list,

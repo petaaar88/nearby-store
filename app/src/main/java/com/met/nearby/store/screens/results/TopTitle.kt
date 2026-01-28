@@ -1,7 +1,6 @@
 package com.met.nearby.store.screens.results
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
@@ -22,32 +21,25 @@ import com.met.nearby.store.R
 
 @Composable
 @Preview
-fun TopTitle(title: String = "title", onBackClick: () -> Unit = {}){
+fun TopTitle(title: String = "title"){
     Box(modifier = Modifier.fillMaxWidth()
-        .height(130.dp)
+        .height(100.dp)
     ) {
         Row(modifier = Modifier.align(Alignment.Center)
             .padding(horizontal = 16.dp),
             horizontalArrangement = Arrangement.Start,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Image(painter = painterResource(R.drawable.back),
-                contentDescription = null,
-                modifier = Modifier.clickable{ onBackClick() }
-            )
-
             Text(
                 text = title+"Stores Result",
                 fontSize = 20.sp,
                 color = colorResource(R.color.gold),
-                modifier = Modifier.weight(1f)
-                    .padding(horizontal = 16.dp),
+                modifier = Modifier.weight(1f),
                 fontWeight = FontWeight.Bold
             )
 
             Image(painter = painterResource(R.drawable.sample),
                 contentDescription = null,
-
             )
         }
     }
