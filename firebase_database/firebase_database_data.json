@@ -42,14 +42,14 @@
       "Address": "22 King Street, Downtown City",
       "Call": "+123456789",
       "CategoryId": "0",
-      "SubCategoryId": "0",
       "Description": "Experience the perfect blend of flame-grilled perfection and exciting flavors at Grill & Thrill. Our menu features premium cuts, signature sauces, and a vibrant atmosphere that makes every meal an adventure.",
       "Hours": "10 am - 10pm",
-      "Id": 0,
+      "Id": 123,
       "ImagePath": "https://res.cloudinary.com/dkikc5ywq/image/upload/v1742567632/store_2_brpt3r.jpg",
       "Latitude": 40.71324,
       "Longitude": -73.8815,
       "ShortAddress": "22 King Street",
+      "SubCategoryId": "0",
       "Title": "Grill & Thrill"
     },
     {
@@ -57,14 +57,14 @@
       "Address": "45 River Road, Riverside Park",
       "Call": "+123456789",
       "CategoryId": "0",
-      "SubCategoryId": "1",
       "Description": "Where every bite sizzles with flavor! Sizzle Spot brings you fresh, locally-sourced ingredients cooked to perfection. From juicy steaks to mouthwatering burgers, we serve up comfort food with a modern twist.",
       "Hours": "10 am - 10pm",
-      "Id": 1,
+      "Id": 124,
       "ImagePath": "https://res.cloudinary.com/dkikc5ywq/image/upload/v1742567627/store_1_j9vwrw.jpg",
       "Latitude": 40.75582,
       "Longitude": -73.50686,
       "ShortAddress": "45 River Road",
+      "SubCategoryId": "1",
       "Title": "Sizzle Spot"
     },
     {
@@ -72,14 +72,14 @@
       "Address": " 98 Park Avenue, Central Square",
       "Call": "+123456789",
       "CategoryId": "0",
-      "SubCategoryId": "0",
       "Description": "Your ultimate burger destination! Burger Haven crafts gourmet burgers with hand-pressed patties, artisan buns, and creative toppings. Whether you're craving classic or adventurous, we've got the perfect burger for you.",
       "Hours": "10 am - 10pm",
-      "Id": 2,
+      "Id": 125,
       "ImagePath": "https://res.cloudinary.com/dkikc5ywq/image/upload/v1742567633/store_3_lab54e.jpg",
       "Latitude": 40.51573,
       "Longitude": -73.21026,
       "ShortAddress": "98 Park Avenue",
+      "SubCategoryId": "0",
       "Title": "Burger Haven"
     }
   ],
@@ -89,7 +89,6 @@
       "Address": "45 Main St.  Riverside Park",
       "Call": "+123456789",
       "CategoryId": "0",
-      "SubCategoryId": "2",
       "Description": "Savor the flavors of home-cooked goodness at Tasty Bites. We specialize in generous portions of comfort food made with love and fresh ingredients. Perfect for families and food lovers alike.",
       "Hours": "10 am - 10pm",
       "Id": 0,
@@ -97,6 +96,7 @@
       "Latitude": 40.71324,
       "Longitude": -73.8815,
       "ShortAddress": "45 Main St.",
+      "SubCategoryId": "2",
       "Title": "Tasty Bites"
     },
     {
@@ -104,7 +104,6 @@
       "Address": "101 Oak Rd, Downtown City",
       "Call": "+123456789",
       "CategoryId": "0",
-      "SubCategoryId": "4",
       "Description": "Turn up the heat at Spicy Grill! Our bold menu features international flavors with a spicy kick. From fiery wings to zesty tacos, we bring the heat and the flavor in every dish.",
       "Hours": "10 am - 10pm",
       "Id": 1,
@@ -112,6 +111,7 @@
       "Latitude": 40.79119,
       "Longitude": -74.13214,
       "ShortAddress": "101 Oak Rd",
+      "SubCategoryId": "4",
       "Title": "Spicy Grill"
     },
     {
@@ -119,7 +119,6 @@
       "Address": "67 Pine Ave,Central Square",
       "Call": "+123456789",
       "CategoryId": "0",
-      "SubCategoryId": "0",
       "Description": "Fast, fresh, and delicious! Quick Eats is your go-to spot for quality meals on the go. We pride ourselves on speedy service without compromising on taste or freshness.",
       "Hours": "10 am - 10pm",
       "Id": 2,
@@ -127,6 +126,7 @@
       "Latitude": 40.90053,
       "Longitude": -74.09875,
       "ShortAddress": "67 Pine Ave",
+      "SubCategoryId": "0",
       "Title": "Quick Eats"
     }
   ],
@@ -166,7 +166,12 @@
     {
       "Email": "petar@gmail.com",
       "FavoriteStores": [
-        0
+        125,
+        0,
+        1,
+        2,
+        123,
+        124
       ],
       "FirstName": "Petar",
       "Id": 1,

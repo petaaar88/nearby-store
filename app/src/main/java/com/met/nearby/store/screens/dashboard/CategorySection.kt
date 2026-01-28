@@ -72,7 +72,7 @@ fun CategorySection(
         color = colorResource(id = R.color.gold),
         fontWeight = FontWeight.SemiBold,
         modifier = Modifier.padding(horizontal = 16.dp)
-            .padding(top = 24.dp)
+            .padding(top = 8.dp)
     )
 
     if(showCategoryLoading){

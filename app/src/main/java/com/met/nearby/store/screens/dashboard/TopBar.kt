@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -29,45 +30,51 @@ fun TopBar(
     lastName: String? = null,
     imageUrl: String? = null
 ) {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 16.dp, vertical = 16.dp),
-        horizontalArrangement = Arrangement.SpaceBetween,
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        Column {
-            Text(
-                text = "Hello",
-                fontSize = 14.sp,
-                color = colorResource(id = R.color.gold)
-            )
-            Text(
-                text = buildFullName(firstName, lastName),
-                fontSize = 20.sp,
-                fontWeight = FontWeight.Bold,
-                color = colorResource(id = R.color.white)
-            )
-        }
+    Column(modifier = Modifier.fillMaxWidth()) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp, vertical = 16.dp),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Column {
+                Text(
+                    text = "Hello",
+                    fontSize = 14.sp,
+                    color = colorResource(id = R.color.gold)
+                )
+                Text(
+                    text = buildFullName(firstName, lastName),
+                    fontSize = 20.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = colorResource(id = R.color.white)
+                )
+            }
 
-        if (isLoggedIn && !imageUrl.isNullOrEmpty()) {
-            AsyncImage(
-                model = imageUrl,
-                contentDescription = "Profile",
-                modifier = Modifier
-                    .size(48.dp)
-                    .clip(CircleShape),
-                contentScale = ContentScale.Crop,
-                placeholder = painterResource(id = R.drawable.ic_person),
-                error = painterResource(id = R.drawable.ic_person)
-            )
-        } else {
-            Image(
-                painter = painterResource(id = if (isLoggedIn) R.drawable.profile else R.drawable.ic_person),
-                contentDescription = null,
-                modifier = Modifier.size(48.dp)
-            )
+            if (isLoggedIn && !imageUrl.isNullOrEmpty()) {
+                AsyncImage(
+                    model = imageUrl,
+                    contentDescription = "Profile",
+                    modifier = Modifier
+                        .size(48.dp)
+                        .clip(CircleShape),
+                    contentScale = ContentScale.Crop,
+                    placeholder = painterResource(id = R.drawable.ic_person),
+                    error = painterResource(id = R.drawable.ic_person)
+                )
+            } else {
+                Image(
+                    painter = painterResource(id = if (isLoggedIn) R.drawable.profile else R.drawable.ic_person),
+                    contentDescription = null,
+                    modifier = Modifier.size(48.dp)
+                )
+            }
         }
+        HorizontalDivider(
+            color = colorResource(id = R.color.black3).copy(alpha = 0.3f),
+            thickness = 2.dp
+        )
     }
 }
 
