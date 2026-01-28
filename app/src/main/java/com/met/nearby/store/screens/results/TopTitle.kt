@@ -31,7 +31,7 @@ fun TopTitle(title: String = "title"){
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
-                text = title+"Stores Result",
+                text = title+" Stores Result",
                 fontSize = 20.sp,
                 color = colorResource(R.color.gold),
                 modifier = Modifier.weight(1f),

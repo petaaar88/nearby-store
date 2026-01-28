@@ -1,6 +1,7 @@
 package com.met.nearby.store.screens.results
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -30,8 +31,15 @@ import com.met.nearby.store.R
 import com.met.nearby.store.domain.CategoryModel
 
 @Composable
-fun Category(item: CategoryModel, onItemClick: () -> Unit){
+fun Category(item: CategoryModel, isSelected: Boolean, onItemClick: () -> Unit){
+    val borderModifier = if (isSelected) {
+        Modifier.border(2.dp, colorResource(R.color.gold), RoundedCornerShape(10.dp))
+    } else {
+        Modifier
+    }
+
     Column(modifier = Modifier.size(85.dp,95.dp)
+        .then(borderModifier)
         .background(color = colorResource(R.color.black3),
             shape = RoundedCornerShape(10.dp)
         )
@@ -59,14 +67,16 @@ fun Category(item: CategoryModel, onItemClick: () -> Unit){
 @Preview
 fun CategoryPreview(){
     val item = CategoryModel(Id = 0, ImagePath = "", Name = "Name")
-    Category(item = item, onItemClick = {})
+    Category(item = item, isSelected = false, onItemClick = {})
 }
 
 
 @Composable
 fun SubCategory(
     subCategory: SnapshotStateList<CategoryModel>,
-    showSubCategoryLoading: Boolean
+    showSubCategoryLoading: Boolean,
+    selectedSubCategoryId: Int?,
+    onSubCategoryClick: (CategoryModel) -> Unit
 ){
     if(showSubCategoryLoading){
         Box(Modifier.fillMaxWidth()
@@ -81,7 +91,12 @@ fun SubCategory(
             contentPadding = PaddingValues(start = 16.dp, end = 16.dp, top = 8.dp)
         ) {
             items(subCategory.size){ index ->
-                Category(item = subCategory[index], onItemClick = {})
+                val item = subCategory[index]
+                Category(
+                    item = item,
+                    isSelected = selectedSubCategoryId == item.Id,
+                    onItemClick = { onSubCategoryClick(item) }
+                )
             }
         }
     }

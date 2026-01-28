@@ -37,10 +37,22 @@ fun ResultList(
     val nearest = remember { mutableStateListOf<StoreModel>() }
 
     var searchText by remember { mutableStateOf("") }
+    var selectedSubCategoryId by remember { mutableStateOf<Int?>(null) }
 
-    val filteredNearest = remember(nearest.toList(), searchText) {
-        if (searchText.isBlank()) nearest.toList()
-        else nearest.filter { it.Title.contains(searchText, ignoreCase = true) }
+    val filteredPopular = remember(popular.toList(), selectedSubCategoryId) {
+        if (selectedSubCategoryId == null) popular.toList()
+        else popular.filter { it.SubCategoryId == selectedSubCategoryId.toString() }
+    }
+
+    val filteredNearest = remember(nearest.toList(), searchText, selectedSubCategoryId) {
+        var result = nearest.toList()
+        if (selectedSubCategoryId != null) {
+            result = result.filter { it.SubCategoryId == selectedSubCategoryId.toString() }
+        }
+        if (searchText.isNotBlank()) {
+            result = result.filter { it.Title.contains(searchText, ignoreCase = true) }
+        }
+        result
     }
 
     var showSubCategoryLoading by remember { mutableStateOf(true) }
@@ -90,8 +102,21 @@ fun ResultList(
         ) {
             item { TopTitle(title) }
             item { Search(searchText = searchText, onSearchChange = { searchText = it }) }
-            item { SubCategory(subCategory, showSubCategoryLoading) }
-            item { PopularSection(popular.toList(), showPopularLoading, onStoreClick) }
+            item {
+                SubCategory(
+                    subCategory = subCategory,
+                    showSubCategoryLoading = showSubCategoryLoading,
+                    selectedSubCategoryId = selectedSubCategoryId,
+                    onSubCategoryClick = { clickedSubCategory ->
+                        selectedSubCategoryId = if (selectedSubCategoryId == clickedSubCategory.Id) {
+                            null
+                        } else {
+                            clickedSubCategory.Id
+                        }
+                    }
+                )
+            }
+            item { PopularSection(filteredPopular, showPopularLoading, onStoreClick) }
             item { NearestList(list = filteredNearest, showNearestLoading, onStoreClick) }
         }
     }

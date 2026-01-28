@@ -1,0 +1,178 @@
+{
+  "Banners": [
+    {
+      "image": "https://res.cloudinary.com/doylkesjp/image/upload/v1767538784/banner_yu1zxc.png"
+    }
+  ],
+  "Category": [
+    {
+      "Id": 0,
+      "ImagePath": "https://res.cloudinary.com/dkikc5ywq/image/upload/v1742479108/project229.1/dhgvtzwjrr5pzgnjev02.png",
+      "Name": "Foods"
+    },
+    {
+      "Id": 1,
+      "ImagePath": "https://res.cloudinary.com/dkikc5ywq/image/upload/v1742479108/project229.1/s3rxjacqvlqw9hhhonlq.png",
+      "Name": "Grocery"
+    },
+    {
+      "Id": 2,
+      "ImagePath": "https://res.cloudinary.com/dkikc5ywq/image/upload/v1742479108/project229.1/ilbudibvxdca7ohuixg4.png",
+      "Name": "Electronics"
+    },
+    {
+      "Id": 3,
+      "ImagePath": "https://res.cloudinary.com/dkikc5ywq/image/upload/v1742479110/project229.1/gzbx2avopkug5havzldw.png",
+      "Name": "Fashion"
+    },
+    {
+      "Id": 4,
+      "ImagePath": "https://res.cloudinary.com/dkikc5ywq/image/upload/v1742479110/project229.1/mp4qinmrsooq3maeubyi.png",
+      "Name": "Home Goods"
+    },
+    {
+      "Id": 5,
+      "ImagePath": "https://res.cloudinary.com/dkikc5ywq/image/upload/v1742479110/project229.1/ruqafq7bhgj9g7amuh8r.png",
+      "Name": "Health"
+    }
+  ],
+  "Nearest": [
+    {
+      "Activity": "Dine-in . Takeaway . Delivery",
+      "Address": "22 King Street, Downtown City",
+      "Call": "+123456789",
+      "CategoryId": "0",
+      "SubCategoryId": "0",
+      "Description": "Experience the perfect blend of flame-grilled perfection and exciting flavors at Grill & Thrill. Our menu features premium cuts, signature sauces, and a vibrant atmosphere that makes every meal an adventure.",
+      "Hours": "10 am - 10pm",
+      "Id": 0,
+      "ImagePath": "https://res.cloudinary.com/dkikc5ywq/image/upload/v1742567632/store_2_brpt3r.jpg",
+      "Latitude": 40.71324,
+      "Longitude": -73.8815,
+      "ShortAddress": "22 King Street",
+      "Title": "Grill & Thrill"
+    },
+    {
+      "Activity": "Dine-in . Takeaway . Delivery",
+      "Address": "45 River Road, Riverside Park",
+      "Call": "+123456789",
+      "CategoryId": "0",
+      "SubCategoryId": "1",
+      "Description": "Where every bite sizzles with flavor! Sizzle Spot brings you fresh, locally-sourced ingredients cooked to perfection. From juicy steaks to mouthwatering burgers, we serve up comfort food with a modern twist.",
+      "Hours": "10 am - 10pm",
+      "Id": 1,
+      "ImagePath": "https://res.cloudinary.com/dkikc5ywq/image/upload/v1742567627/store_1_j9vwrw.jpg",
+      "Latitude": 40.75582,
+      "Longitude": -73.50686,
+      "ShortAddress": "45 River Road",
+      "Title": "Sizzle Spot"
+    },
+    {
+      "Activity": "Dine-in . Takeaway . Delivery",
+      "Address": " 98 Park Avenue, Central Square",
+      "Call": "+123456789",
+      "CategoryId": "0",
+      "SubCategoryId": "0",
+      "Description": "Your ultimate burger destination! Burger Haven crafts gourmet burgers with hand-pressed patties, artisan buns, and creative toppings. Whether you're craving classic or adventurous, we've got the perfect burger for you.",
+      "Hours": "10 am - 10pm",
+      "Id": 2,
+      "ImagePath": "https://res.cloudinary.com/dkikc5ywq/image/upload/v1742567633/store_3_lab54e.jpg",
+      "Latitude": 40.51573,
+      "Longitude": -73.21026,
+      "ShortAddress": "98 Park Avenue",
+      "Title": "Burger Haven"
+    }
+  ],
+  "Stores": [
+    {
+      "Activity": "Dine-in . Takeaway . Delivery",
+      "Address": "45 Main St.  Riverside Park",
+      "Call": "+123456789",
+      "CategoryId": "0",
+      "SubCategoryId": "2",
+      "Description": "Savor the flavors of home-cooked goodness at Tasty Bites. We specialize in generous portions of comfort food made with love and fresh ingredients. Perfect for families and food lovers alike.",
+      "Hours": "10 am - 10pm",
+      "Id": 0,
+      "ImagePath": "https://res.cloudinary.com/dkikc5ywq/image/upload/v1742567633/store_5_ihfszx.jpg",
+      "Latitude": 40.71324,
+      "Longitude": -73.8815,
+      "ShortAddress": "45 Main St.",
+      "Title": "Tasty Bites"
+    },
+    {
+      "Activity": "Dine-in . Takeaway . Delivery",
+      "Address": "101 Oak Rd, Downtown City",
+      "Call": "+123456789",
+      "CategoryId": "0",
+      "SubCategoryId": "4",
+      "Description": "Turn up the heat at Spicy Grill! Our bold menu features international flavors with a spicy kick. From fiery wings to zesty tacos, we bring the heat and the flavor in every dish.",
+      "Hours": "10 am - 10pm",
+      "Id": 1,
+      "ImagePath": "https://res.cloudinary.com/dkikc5ywq/image/upload/v1742567635/store_4_ywlkdb.jpg",
+      "Latitude": 40.79119,
+      "Longitude": -74.13214,
+      "ShortAddress": "101 Oak Rd",
+      "Title": "Spicy Grill"
+    },
+    {
+      "Activity": "Dine-in . Takeaway . Delivery",
+      "Address": "67 Pine Ave,Central Square",
+      "Call": "+123456789",
+      "CategoryId": "0",
+      "SubCategoryId": "0",
+      "Description": "Fast, fresh, and delicious! Quick Eats is your go-to spot for quality meals on the go. We pride ourselves on speedy service without compromising on taste or freshness.",
+      "Hours": "10 am - 10pm",
+      "Id": 2,
+      "ImagePath": "https://res.cloudinary.com/dkikc5ywq/image/upload/v1742567637/store_6_on9gtt.jpg",
+      "Latitude": 40.90053,
+      "Longitude": -74.09875,
+      "ShortAddress": "67 Pine Ave",
+      "Title": "Quick Eats"
+    }
+  ],
+  "SubCategory": [
+    {
+      "CategoryId": "0",
+      "Id": 0,
+      "ImagePath": "https://res.cloudinary.com/dkikc5ywq/image/upload/v1742551235/cat_1_1_o8vral.png",
+      "Name": "Burger"
+    },
+    {
+      "CategoryId": "0",
+      "Id": 1,
+      "ImagePath": "https://res.cloudinary.com/dkikc5ywq/image/upload/v1742551236/cat_1_2_lec6pv.png",
+      "Name": "Coffee"
+    },
+    {
+      "CategoryId": "0",
+      "Id": 2,
+      "ImagePath": "https://res.cloudinary.com/dkikc5ywq/image/upload/v1742551236/cat_1_3_u53otg.png",
+      "Name": "Pizza"
+    },
+    {
+      "CategoryId": "0",
+      "Id": 3,
+      "ImagePath": "https://res.cloudinary.com/dkikc5ywq/image/upload/v1742551236/cat_1_4_b09ss8.png",
+      "Name": "Sushi"
+    },
+    {
+      "CategoryId": "0",
+      "Id": 4,
+      "ImagePath": "https://res.cloudinary.com/dkikc5ywq/image/upload/v1742551235/cat_1_5_iyqdc2.png",
+      "Name": "Chicken"
+    }
+  ],
+  "Users": [
+    {
+      "Email": "petar@gmail.com",
+      "FavoriteStores": [
+        0
+      ],
+      "FirstName": "Petar",
+      "Id": 1,
+      "ImageUrl": "https://res.cloudinary.com/doylkesjp/image/upload/v1769529181/csm_Person_Yury_Prof_Foto_AnLI_Footgrafie__2_.JPG_94f12fbf25_znpk9j.jpg",
+      "LastName": "Djordjevic",
+      "Password": "Sifra123"
+    }
+  ]
+}
