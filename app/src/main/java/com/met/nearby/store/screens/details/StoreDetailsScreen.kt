@@ -216,7 +216,8 @@ fun StoreDetailsTopBar(
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .height(80.dp)
+            .height(95.dp)
+            .padding(top = 10.dp)
             .background(colorResource(R.color.black2))
             .padding(horizontal = 8.dp)
     ) {
