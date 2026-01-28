@@ -13,6 +13,7 @@ import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.met.nearby.store.auth.UserSession
 import com.met.nearby.store.domain.StoreModel
 import com.met.nearby.store.screens.dashboard.DashboardScreen
+import com.met.nearby.store.screens.details.StoreDetailsScreen
 import com.met.nearby.store.screens.map.MapScreen
 import com.met.nearby.store.screens.results.ResultList
 import com.met.nearby.store.screens.favorite.FavoriteScreen
@@ -37,6 +38,7 @@ sealed class Screen {
     data object Favorite: Screen()
     data object Profile: Screen()
     data class Results(val id: String, val title: String): Screen()
+    data class StoreDetails(val store: StoreModel): Screen()
     data class Map(val store: StoreModel): Screen()
 }
 
@@ -105,7 +107,7 @@ fun MainApp() {
                     backStack.add(Screen.Dashboard)
                 },
                 onStoreClick = { store ->
-                    backStack.add(Screen.Map(store))
+                    backStack.add(Screen.StoreDetails(store))
                 },
                 onProfileClick = {
                     backStack.add(Screen.Profile)
@@ -147,10 +149,20 @@ fun MainApp() {
                     backStack.add(Screen.Favorite)
                 },
                 onStoreClick = { store ->
-                    backStack.add(Screen.Map(store))
+                    backStack.add(Screen.StoreDetails(store))
                 },
                 onProfileClick = {
                     backStack.add(Screen.Profile)
+                }
+            )
+        }
+
+        is Screen.StoreDetails -> {
+            StoreDetailsScreen(
+                store = screen.store,
+                onBackClick = { popBackStack() },
+                onShowMapClick = {
+                    backStack.add(Screen.Map(screen.store))
                 }
             )
         }
