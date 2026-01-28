@@ -169,7 +169,8 @@ fun LoginScreen(
                                 email = user.Email,
                                 firstName = user.FirstName,
                                 lastName = user.LastName,
-                                imageUrl = user.ImageUrl
+                                imageUrl = user.ImageUrl,
+                                favorites = user.FavoriteStores
                             )
                             onLoginClick()
                         }

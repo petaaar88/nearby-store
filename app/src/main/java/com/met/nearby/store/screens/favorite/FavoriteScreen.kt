@@ -11,14 +11,21 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Text
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
@@ -31,6 +38,7 @@ import androidx.compose.ui.unit.sp
 import com.met.nearby.store.R
 import com.met.nearby.store.auth.UserSession
 import com.met.nearby.store.domain.StoreModel
+import com.met.nearby.store.repository.FavoriteRepository
 import com.met.nearby.store.screens.dashboard.BottomBar
 import com.met.nearby.store.screens.results.ItemsNearest
 
@@ -41,21 +49,21 @@ fun FavoriteScreen(
     onProfileClick: () -> Unit = {},
     onLoginClick: () -> Unit = {}
 ) {
-    val favoriteStores = listOf(
-        StoreModel(
-            Id = 0,
-            CategoryId = "0",
-            Title = "Tasty Bites",
-            Address = "45 Main St. Riverside Park",
-            ShortAddress = "45 Main St.",
-            Activity = "Dine-in . Takeaway . Delivery",
-            Hours = "10 am - 10pm",
-            ImagePath = "https://res.cloudinary.com/dkikc5ywq/image/upload/v1742567633/store_5_ihfszx.jpg",
-            Latitude = 40.71324,
-            Longitude = -73.8815,
-            Call = "+123456789"
-        )
-    )
+    val favoriteRepository = remember { FavoriteRepository() }
+    var favoriteStores by remember { mutableStateOf<List<StoreModel>>(emptyList()) }
+    var isLoading by remember { mutableStateOf(true) }
+
+    LaunchedEffect(UserSession.favoriteStores) {
+        if (UserSession.isLoggedIn) {
+            isLoading = true
+            favoriteRepository.loadFavoriteStores().observeForever { stores ->
+                favoriteStores = stores
+                isLoading = false
+            }
+        } else {
+            isLoading = false
+        }
+    }
 
     Scaffold(
         containerColor = colorResource(id = R.color.black2),
@@ -69,16 +77,46 @@ fun FavoriteScreen(
         }
     ) { paddingValues ->
         if (UserSession.isLoggedIn) {
-            LazyColumn(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(paddingValues)
-                    .background(color = colorResource(R.color.black2))
-            ) {
-                item { FavoriteTopTitle() }
-                items(favoriteStores) { store ->
-                    Box(modifier = Modifier.padding(horizontal = 16.dp, vertical = 6.dp)) {
-                        ItemsNearest(item = store, onClick = { onStoreClick(store) })
+            if (isLoading) {
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(paddingValues)
+                        .background(color = colorResource(R.color.black2)),
+                    contentAlignment = Alignment.Center
+                ) {
+                    CircularProgressIndicator(
+                        modifier = Modifier.size(48.dp),
+                        color = colorResource(R.color.gold)
+                    )
+                }
+            } else if (favoriteStores.isEmpty()) {
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(paddingValues)
+                        .background(color = colorResource(R.color.black2)),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Text(
+                        text = "No favorite stores yet",
+                        fontSize = 18.sp,
+                        color = colorResource(R.color.gray),
+                        textAlign = TextAlign.Center
+                    )
+                }
+            } else {
+                LazyColumn(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(paddingValues)
+                        .background(color = colorResource(R.color.black2))
+                ) {
+                    item { FavoriteTopTitle() }
+                    items(favoriteStores) { store ->
+                        Box(modifier = Modifier.padding(horizontal = 16.dp, vertical = 6.dp)) {
+                            ItemsNearest(item = store, onClick = { onStoreClick(store) })
+                        }
                     }
                 }
             }

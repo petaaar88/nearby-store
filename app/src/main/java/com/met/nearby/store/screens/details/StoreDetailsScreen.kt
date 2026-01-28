@@ -19,6 +19,8 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.outlined.FavoriteBorder
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
@@ -27,6 +29,10 @@ import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -41,7 +47,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.met.nearby.store.R
+import com.met.nearby.store.auth.UserSession
 import com.met.nearby.store.domain.StoreModel
+import com.met.nearby.store.repository.FavoriteRepository
 
 @Composable
 fun StoreDetailsScreen(
@@ -51,13 +59,23 @@ fun StoreDetailsScreen(
 ) {
     val context = LocalContext.current
     val scrollState = rememberScrollState()
+    val favoriteRepository = remember { FavoriteRepository() }
+    var isFavorite by remember { mutableStateOf(UserSession.isFavorite(store.Id)) }
+    val isLoggedIn = UserSession.isLoggedIn
 
     Scaffold(
         containerColor = colorResource(id = R.color.black2),
         topBar = {
             StoreDetailsTopBar(
                 title = "Store Details",
-                onBackClick = onBackClick
+                onBackClick = onBackClick,
+                showFavoriteButton = isLoggedIn,
+                isFavorite = isFavorite,
+                onFavoriteClick = {
+                    favoriteRepository.toggleFavorite(store.Id).observeForever { result ->
+                        isFavorite = UserSession.isFavorite(store.Id)
+                    }
+                }
             )
         }
     ) { paddingValues ->
@@ -211,7 +229,10 @@ fun StoreDetailsScreen(
 @Composable
 fun StoreDetailsTopBar(
     title: String,
-    onBackClick: () -> Unit
+    onBackClick: () -> Unit,
+    showFavoriteButton: Boolean = false,
+    isFavorite: Boolean = false,
+    onFavoriteClick: () -> Unit = {}
 ) {
     Box(
         modifier = Modifier
@@ -239,8 +260,19 @@ fun StoreDetailsTopBar(
                 text = title,
                 color = colorResource(R.color.gold),
                 fontSize = 20.sp,
-                fontWeight = FontWeight.Bold
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier.weight(1f)
             )
+
+            if (showFavoriteButton) {
+                IconButton(onClick = onFavoriteClick) {
+                    Icon(
+                        imageVector = if (isFavorite) Icons.Filled.Favorite else Icons.Outlined.FavoriteBorder,
+                        contentDescription = if (isFavorite) "Remove from favorites" else "Add to favorites",
+                        tint = colorResource(R.color.gold)
+                    )
+                }
+            }
         }
     }
 }
