@@ -92,7 +92,8 @@ fun ResultList(
                 onFavoriteClick = onFavoriteClick,
                 onProfileClick = onProfileClick
             )
-        }
+        },
+        topBar = { TopTitle(title) }
     ) { paddingValues ->
         LazyColumn(
             modifier = Modifier
@@ -100,7 +101,6 @@ fun ResultList(
                 .padding(paddingValues)
                 .background(color = colorResource(R.color.black2))
         ) {
-            item { TopTitle(title) }
             item { Search(searchText = searchText, onSearchChange = { searchText = it }) }
             item {
                 SubCategory(
