@@ -55,15 +55,16 @@ fun StoreDetails(item: StoreModel){
         ) {
             Image(painter = painterResource(R.drawable.location),
                 contentDescription = null)
+            Text(
+                text = item.Address,
+                color = Color.White,
+                fontSize = 12.sp,
+                maxLines = 1,
+                modifier = Modifier.padding(start = 4.dp)
+            )
         }
 
-        Text(
-            text = item.Address,
-            color = Color.White,
-            fontSize = 12.sp,
-            maxLines = 1,
-            modifier = Modifier.padding(start = 4.dp)
-        )
+
 
         Text(
             text = item.Activity,
