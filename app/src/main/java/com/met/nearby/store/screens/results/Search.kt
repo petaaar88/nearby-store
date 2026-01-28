@@ -8,10 +8,14 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Text
 import androidx.compose.material.TextField
 import androidx.compose.material.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
@@ -25,6 +29,8 @@ fun Search(
     searchText: String,
     onSearchChange: (String) -> Unit
 ){
+    val keyboardController = LocalSoftwareKeyboardController.current
+
     TextField(
         value = searchText,
         onValueChange = onSearchChange,
@@ -40,6 +46,9 @@ fun Search(
                 modifier = Modifier.size(22.dp)
             )
         },
+        keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
+        keyboardActions = KeyboardActions(onSearch = { keyboardController?.hide() }),
+        singleLine = true,
         colors = TextFieldDefaults.outlinedTextFieldColors(
             backgroundColor = colorResource(R.color.black3),
             focusedBorderColor = Color.Transparent,

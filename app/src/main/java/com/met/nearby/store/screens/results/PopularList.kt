@@ -101,25 +101,14 @@ fun PopularSection(
 
     Column{
 
-        Row(
-            Modifier.padding(horizontal = 16.dp)
+        Text(
+            text = "Popular Stores",
+            color = colorResource(R.color.gold),
+            fontSize = 20.sp,
+            fontWeight = FontWeight.SemiBold,
+            modifier = Modifier.padding(horizontal = 16.dp)
                 .padding(top = 16.dp)
-        ){
-            Text(
-                text = "Popular Stores",
-                color = colorResource(R.color.gold),
-                fontSize = 20.sp,
-                fontWeight = FontWeight.SemiBold,
-                modifier = Modifier.weight(1f)
-            )
-            Text(
-                text = "See all",
-                color = Color.White,
-                fontSize = 16.sp,
-                style = TextStyle(textDecoration = TextDecoration.Underline)
-            )
-
-        }
+        )
 
         if(showPopularStores){
             Box(Modifier.fillMaxWidth()

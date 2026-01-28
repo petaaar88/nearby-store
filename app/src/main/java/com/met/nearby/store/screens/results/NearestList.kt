@@ -123,26 +123,16 @@ fun NearestList(
     showNearestLoading: Boolean,
     onStoreClick: (StoreModel) -> Unit
 ){
-    Column() {
+    Column(modifier = Modifier.padding(bottom = 20.dp)) {
 
-        Row(
-            Modifier.padding(horizontal = 16.dp)
-                .padding(top = 16.dp)
-        ) {
-            Text(
-                text = "Nearest Stores",
-                color = colorResource(R.color.gold),
-                fontSize = 20.sp,
-                fontWeight = FontWeight.SemiBold,
-                modifier = Modifier.weight(1f)
-            )
-            Text(
-                text = "See all",
-                color = Color.White,
-                fontSize = 16.sp,
-                style = TextStyle(textDecoration = TextDecoration.Underline)
-            )
-        }
+        Text(
+            text = "Nearest Stores",
+            color = colorResource(R.color.gold),
+            fontSize = 20.sp,
+            fontWeight = FontWeight.SemiBold,
+            modifier = Modifier.padding(horizontal = 16.dp)
+                .padding(top = 16.dp, bottom = 10.dp)
+        )
 
         if(showNearestLoading){
             Box(Modifier.fillMaxWidth()
