@@ -2,24 +2,27 @@ package com.met.nearby.store
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
-import androidx.activity.compose.BackHandler
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateListOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.res.colorResource
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import androidx.navigation.toRoute
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.met.nearby.store.auth.UserSession
 import com.met.nearby.store.domain.StoreModel
+import com.met.nearby.store.navigation.*
 import com.met.nearby.store.screens.dashboard.DashboardScreen
 import com.met.nearby.store.screens.details.StoreDetailsScreen
-import com.met.nearby.store.screens.map.MapScreen
-import com.met.nearby.store.screens.results.ResultList
 import com.met.nearby.store.screens.favorite.FavoriteScreen
 import com.met.nearby.store.screens.login.LoginScreen
+import com.met.nearby.store.screens.map.MapScreen
 import com.met.nearby.store.screens.profile.ProfileScreen
+import com.met.nearby.store.screens.results.ResultList
 import com.met.nearby.store.screens.splash.SplashScreen
+import kotlin.reflect.typeOf
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -31,146 +34,149 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-sealed class Screen {
-    data object Splash: Screen()
-    data object Login: Screen()
-    data object Dashboard: Screen()
-    data object Favorite: Screen()
-    data object Profile: Screen()
-    data class Results(val id: String, val title: String): Screen()
-    data class StoreDetails(val store: StoreModel): Screen()
-    data class Map(val store: StoreModel): Screen()
-}
-
 @Composable
 fun MainApp() {
     val systemUiController = rememberSystemUiController()
     systemUiController.setStatusBarColor(color = colorResource(R.color.black2))
     systemUiController.setNavigationBarColor(color = colorResource(R.color.black3))
 
-    val backStack = remember { mutableStateListOf<Screen>(Screen.Splash) }
-    val currentScreen  = backStack.last()
+    val navController = rememberNavController()
+    val storeTypeMap = mapOf(typeOf<StoreModel>() to StoreModelNavType)
 
-    fun popBackStack(){
-        if(backStack.size > 1){
-            backStack.removeAt(backStack.lastIndex)
-        }
-    }
-
-    BackHandler(enabled = backStack.size > 1) {
-        popBackStack()
-    }
-
-    when(val screen = currentScreen){
-        Screen.Splash -> {
-            SplashScreen(onNavigateToDashboard = {
-                backStack.removeAll { it == Screen.Splash }
-                if (UserSession.isLoggedIn)
-                    backStack.add(Screen.Dashboard)
-                else
-                    backStack.add(Screen.Login)
-
-            })
+    NavHost(
+        navController = navController,
+        startDestination = SplashRoute
+    ) {
+        composable<SplashRoute> {
+            SplashScreen(
+                onNavigateToDashboard = {
+                    if (UserSession.isLoggedIn) {
+                        navController.navigate(DashboardRoute) {
+                            popUpTo(SplashRoute) { inclusive = true }
+                        }
+                    } else {
+                        navController.navigate(LoginRoute) {
+                            popUpTo(SplashRoute) { inclusive = true }
+                        }
+                    }
+                }
+            )
         }
 
-        Screen.Login -> {
+        composable<LoginRoute> {
             LoginScreen(
                 onLoginClick = {
-                    backStack.removeAll { it == Screen.Login }
-                    backStack.add(Screen.Dashboard)
+                    navController.navigate(DashboardRoute) {
+                        popUpTo(LoginRoute) { inclusive = true }
+                    }
                 },
                 onSkipClick = {
-                    backStack.removeAll { it == Screen.Login }
-                    backStack.add(Screen.Dashboard)
+                    navController.navigate(DashboardRoute) {
+                        popUpTo(LoginRoute) { inclusive = true }
+                    }
                 }
             )
         }
 
-        Screen.Dashboard -> {
+        composable<DashboardRoute> {
             DashboardScreen(
                 onCategoryClick = { id, title ->
-                    backStack.add(Screen.Results(id, title))
+                    navController.navigate(ResultsRoute(id, title))
                 },
                 onFavoriteClick = {
-                    backStack.add(Screen.Favorite)
+                    navController.navigate(FavoriteRoute)
                 },
                 onProfileClick = {
-                    backStack.add(Screen.Profile)
+                    navController.navigate(ProfileRoute)
                 }
             )
         }
 
-        Screen.Favorite -> {
+        composable<FavoriteRoute> {
             FavoriteScreen(
                 onHomeClick = {
-                    backStack.clear()
-                    backStack.add(Screen.Dashboard)
+                    navController.navigate(DashboardRoute) {
+                        popUpTo(DashboardRoute) { inclusive = true }
+                        launchSingleTop = true
+                    }
                 },
                 onStoreClick = { store ->
-                    backStack.add(Screen.StoreDetails(store))
+                    navController.navigate(StoreDetailsRoute(store))
                 },
                 onProfileClick = {
-                    backStack.add(Screen.Profile)
+                    navController.navigate(ProfileRoute)
                 },
                 onLoginClick = {
-                    backStack.add(Screen.Login)
+                    navController.navigate(LoginRoute)
                 }
             )
         }
 
-        Screen.Profile -> {
+        composable<ProfileRoute> {
             ProfileScreen(
                 onHomeClick = {
-                    backStack.clear()
-                    backStack.add(Screen.Dashboard)
+                    navController.navigate(DashboardRoute) {
+                        popUpTo(DashboardRoute) { inclusive = true }
+                        launchSingleTop = true
+                    }
                 },
                 onFavoriteClick = {
-                    backStack.add(Screen.Favorite)
+                    navController.navigate(FavoriteRoute)
                 },
                 onLogoutClick = {
-                    backStack.clear()
-                    backStack.add(Screen.Login)
+                    navController.navigate(LoginRoute) {
+                        popUpTo(0) { inclusive = true }
+                    }
                 },
                 onLoginClick = {
-                    backStack.add(Screen.Login)
+                    navController.navigate(LoginRoute)
                 }
             )
         }
 
-        is Screen.Results -> {
+        composable<ResultsRoute> { backStackEntry ->
+            val route = backStackEntry.toRoute<ResultsRoute>()
             ResultList(
-                id = screen.id,
-                title = screen.title,
+                id = route.id,
+                title = route.title,
                 onHomeClick = {
-                    backStack.clear()
-                    backStack.add(Screen.Dashboard)
+                    navController.navigate(DashboardRoute) {
+                        popUpTo(DashboardRoute) { inclusive = true }
+                        launchSingleTop = true
+                    }
                 },
                 onFavoriteClick = {
-                    backStack.add(Screen.Favorite)
+                    navController.navigate(FavoriteRoute)
                 },
                 onStoreClick = { store ->
-                    backStack.add(Screen.StoreDetails(store))
+                    navController.navigate(StoreDetailsRoute(store))
                 },
                 onProfileClick = {
-                    backStack.add(Screen.Profile)
+                    navController.navigate(ProfileRoute)
                 }
             )
         }
 
-        is Screen.StoreDetails -> {
+        composable<StoreDetailsRoute>(
+            typeMap = storeTypeMap
+        ) { backStackEntry ->
+            val route = backStackEntry.toRoute<StoreDetailsRoute>()
             StoreDetailsScreen(
-                store = screen.store,
-                onBackClick = { popBackStack() },
+                store = route.store,
+                onBackClick = { navController.popBackStack() },
                 onShowMapClick = {
-                    backStack.add(Screen.Map(screen.store))
+                    navController.navigate(MapRoute(route.store))
                 }
             )
         }
 
-        is Screen.Map -> {
+        composable<MapRoute>(
+            typeMap = storeTypeMap
+        ) { backStackEntry ->
+            val route = backStackEntry.toRoute<MapRoute>()
             MapScreen(
-                store = screen.store,
-                onBackClick = { popBackStack() }
+                store = route.store,
+                onBackClick = { navController.popBackStack() }
             )
         }
     }

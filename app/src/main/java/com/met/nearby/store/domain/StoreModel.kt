@@ -1,8 +1,8 @@
 package com.met.nearby.store.domain
 
-import java.io.Serializable
+import kotlinx.serialization.Serializable
 
-
+@Serializable
 data class StoreModel(
     var Id: Int = 0,
     var CategoryId: String = "",
@@ -17,4 +17,4 @@ data class StoreModel(
     var Hours: String = "",
     var ImagePath: String = "",
     var Description: String = ""
-): Serializable
+)
