@@ -20,7 +20,6 @@ Android app for discovering nearby stores by category. Browse store categories, 
 - Interactive map view with store location markers
 - Favorites system for saving preferred stores
 - User authentication with login/skip option
-- User profile management
 
 ## Architecture
 
@@ -51,9 +50,6 @@ Type-safe navigation using Jetpack Navigation Compose with `kotlinx.serializatio
 | Firebase Realtime Database | 22.0.1 | Backend data storage |
 | MapLibre GL | 11.6.1 | Map rendering |
 | Coil Compose | 2.7.0 | Image loading |
-| Accompanist Pager Indicators | 0.36.0 | Banner carousel indicators |
-| Accompanist System UI Controller | 0.36.0 | Status bar theming |
-| ConstraintLayout Compose | 1.1.1 | Complex layouts |
 | Kotlinx Serialization | 1.7.3 | Route serialization |
 
 ## Build & Run
