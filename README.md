@@ -6,9 +6,9 @@ Android app for discovering nearby stores by category. Browse store categories, 
 
 |   |   |   |
 |:-:|:-:|:-:|
-| <img src="screenshots/image1.png" width="250"/> | <img src="screenshots/image2.png" width="250"/> | <img src="screenshots/image3.png" width="250"/> |
-| <img src="screenshots/image4.png" width="250"/> | <img src="screenshots/image5.png" width="250"/> | <img src="screenshots/image7.png" width="250"/> |
-| <img src="screenshots/image8.png" width="250"/> | | |
+| ![](screenshots/image1.png) | ![](screenshots/image2.png) | ![](screenshots/image3.png) |
+| ![](screenshots/image4.png) | ![](screenshots/image5.png) | ![](screenshots/image7.png) |
+| ![](screenshots/image8.png) | | |
 
 ## Features
 
