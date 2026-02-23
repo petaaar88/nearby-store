@@ -4,11 +4,13 @@ Android app for discovering nearby stores by category. Browse store categories, 
 
 ## Screenshots
 
-|   |   |   |
+| Splash | Login | Dashboard |
 |:-:|:-:|:-:|
 | ![](screenshots/image1.png) | ![](screenshots/image2.png) | ![](screenshots/image3.png) |
-| ![](screenshots/image4.png) | ![](screenshots/image5.png) | ![](screenshots/image7.png) |
-| ![](screenshots/image8.png) | | |
+| **Results** | **Store Details** | **Map** |
+| ![](screenshots/image4.png) | ![](screenshots/image5.png) | ![](screenshots/image6.png) |
+| **Favorites** | **Profile** | |
+| ![](screenshots/image7.png) | ![](screenshots/image8.png) | |
 
 ## Features
 
